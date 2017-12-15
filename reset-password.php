@@ -7,7 +7,13 @@
 
     if(!Login::isloggedin()){
       header("Location:login.php");
-   }
+    }
+    
+    if(!isset($_GET['token'])){
+    	header("Location:index.php");
+    }
+
+    $token = $_GET['token'];
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +22,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Password</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/Google-Style-Login.css">
@@ -26,9 +32,9 @@
   <div class="container" >
        <ul class="warn text-center list-group" style="margin-top: 50px;"></ul>
       <div class="login-card"><img src="assets/img/avatar_2x.png" class="profile-img-card">
-        <p class="profile-name-card">Change Password</p>
+        <p class="profile-name-card">Reset Password</p>
         <form class="form-signin"><span class="reauth-email"> </span>
-            <input class="form-control" type="password" required="" placeholder="Old Password" auttofocus="true" id="inputOldPass" required="true">
+          
             <input class="form-control new" type="password" required="" placeholder="New Password"  id="inputNewpass" required="true">
             <input class="form-control new" type="password" required="" placeholder="Confirm Password" id="inputConfirmPassword" required="true">
             
@@ -46,7 +52,6 @@
             $(".form-signin").on('submit',function(event){
                 event.preventDefault();
            
-                var oldpass = $("#inputOldPass").val();
                 var newpass = $("#inputNewpass").val();
                 var confirmpass = $("#inputConfirmPassword").val();
                 var error = new Array();
@@ -77,7 +82,7 @@
                         $.ajax({
                             url : 'api/changepassword',
                             method: 'post',
-                            data : {oldpass:oldpass,newpass:newpass},
+                            data : {changetoken:"<?=$token?>",newpass:newpass},
                             success: function(ans){
                               ans = JSON.parse(ans);
                               $(".warn").html("");
@@ -91,13 +96,13 @@
                                 $(".warn").append("<li class='list-group-item text-center text-danger'>"+ans+"</li>");
                             }
                         });
-                    }
-                });
+                
+                }
 
 
 
        });           
-       
+       });
      </script>
 </body>
 

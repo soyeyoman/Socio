@@ -1,24 +1,45 @@
 <?php
-   include 'classes/DB.php';
-   
-   if(isset($_POST['submit'])){
-      $email = $_POST['email'];
-      if(DB::query('SELECT id FROM users WHERE email = :email',array(':email' => $email))){
-             $cstring = True;
-             $token = bin2hex((openssl_random_pseudo_bytes(64,$cstring)));
-             $user_id = DB::query("SELECT id FROM users WHERE email= :email",array(':email' => $email))[0]['id'];
-             
-             DB::query("INSERT INTO password_tokens (token,user_id) VALUES (:token,:user_id)",array(':token'=> sha1($token),':user_id' => $user_id));	
+    function __autoload($class_name){
+       if (file_exists("./classes/".$class_name.".php")) {
+        require_once("./classes/".$class_name.".php");
+  }
+}
 
-             echo $token;
-      }else{
-      	 echo "No such Email";
-      }
+    if(Login::isloggedin()){
+      header("Location:index.php");
    }
-
 ?>
-<h1>Enter Email to reset password</h1>
-<form action="forgot-password.php" method="post">
-	<input type="email" name="email" placeholder="email"><br><br> 
-	<input type="submit" name="submit" value="Send Email">
-</form>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Email</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/Google-Style-Login.css">
+</head>
+
+<body>
+  <div class="container" >
+       <ul class="warn text-center list-group" style="margin-top: 50px;"></ul>
+      <div class="login-card">
+        <p class="profile-name-card">Insert Email of account</p>
+        <form class="form-signin"><span class="reauth-email"> </span>
+            <input class="form-control" type="email" required="" placeholder="email" auttofocus="true" id="inputemail" required="true">
+            
+            
+            <button class="btn btn-primary btn-block btn-lg btn-cp" type="submit">Change</button>  
+
+          </form>    
+    </div>
+
+  </div>  
+    
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript"></script>
+  </body>
+  </html>
