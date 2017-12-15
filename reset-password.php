@@ -5,7 +5,7 @@
   }
 }
 
-    if(!Login::isloggedin()){
+    if(Login::isloggedin()){
       header("Location:login.php");
     }
     

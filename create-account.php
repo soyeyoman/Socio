@@ -12,6 +12,7 @@
 
 <body>
     <div class="login-card"><img src="assets/img/avatar_2x.png" class="profile-img-card">
+          <ul class="warn text-center list-group" style="margin-top: 50px;"></ul>
         <p class="profile-name-card">REGISTER </p>
         <form class="form-signin"><span class="reauth-email"> </span>
             <input class="form-control" type="text" required="" placeholder="Username" auttofocus="true" id="inputUser">
@@ -28,18 +29,29 @@
             var user = $("#inputUser").val();
             var pass = $("#inputPassword").val();
             var mail = $("#inputEmail").val();
-            
-            $.ajax({
+            if(user.trim() == "" || pass.trim() == "" || mail.trim() == ""){
+                $(".warn").append("<li class='list-group-item text-center text-danger'>Fill all inputs</li>");
+            }else{
+                $.ajax({
                 url: 'api/users',
                 method: 'post',
                 data: {username: user,password : pass,email : mail},
                 success: function(ans){ 
-                     alert("Account created !!");
+                   ans = JSON.parse(ans); 
+                    $(".warn").html(" ");
+                  if(ans.message == "success"){
+                    $(".warn").append("<li class='list-group-item text-center text-success'>Account created</li>");
+                     $(".warn").append("<li class='list-group-item text-center text-success'><a href='login.php'>Login here</a></li>");
+                  }else{
+                     $(".warn").append("<li class='list-group-item text-center text-danger'>"+ans.message+"</li>");
+                  }
                 },
                 error:function(ans) {
-                    alert(ans);
+                    $(".warn").append("<li class='list-group-item text-center text-danger'>Error</li>");
                 }
-          });
+               });
+            }
+            
         });
      });           
        

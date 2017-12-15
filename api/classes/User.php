@@ -33,33 +33,33 @@ class User{
                             if(preg_match('/[a-zA-Z0-9_]+/',$name)){
                                 if(!$db->query("SELECT id FROM users WHERE email= :email",array(':email' => $email))){
                                      $db->query("INSERT INTO users (user_name,password,email) values(:username,:password,:email)",array(':username' => $name,':password' => password_hash($password,PASSWORD_DEFAULT),':email' => $email));
-                                    return "Success !!";
+                                       return '{"message":"success"}';
                                  }else{
-                                  return "Email already exists";
-                                  http_response_code(409);
+                                  return '{"message":"Email already exists"}';
+                    
                                  }
                        
                               }else{
-                                return "Invalid User Name!!";
-                                http_response_code(409);
+                                return '{"message":"Invalid User Name!!"}';
+                          
                               }
                               
                        }else{
-                          return "Invalid password";
-                          http_response_code(409);
+                          return '{"message":"Invalid password"}';
+                          
                        }
                   }else{
-                   return"Invalid Email";
-                    http_response_code(409);
+                   return '{"message":"Invalid Email"}';
+                    
                   }
            }else{
-              return "Invalid User Name !!";
-              http_response_code(409);
+              return '{"message":"Invalid User Name !!"}';
+             
            }
             
          } else{
-            return "User Already Exists";
-            http_response_code(409);
+            return '{"message":"User Already Exists"}';
+           
          }
    }
 

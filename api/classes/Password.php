@@ -42,9 +42,9 @@ class Password{
              
              $db->query("INSERT INTO password_tokens (token,user_id) VALUES (:token,:user_id)",array(':token'=> sha1($token),':user_id' => $user_id)); 
 
-            echo '{"message":"success","token":"'.$token.'"}';
+            return'{"message":"success","token":"'.$token.'"}';
       }else{
-         echo '{"message":"No such Email!!"}';
+        return '{"message":"No such Email!!"}';
       }
   }
 

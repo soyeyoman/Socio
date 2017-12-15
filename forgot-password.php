@@ -40,6 +40,34 @@
     
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+       $(document).ready(function(){
+          $(".form-signin").on('submit',function(event){
+              event.preventDefault();
+              var email = $("#inputemail").val();
+            
+              $.ajax({
+                            url : 'api/resetpassword',
+                            method: 'post',
+                            dataType : "json",
+                            data : {
+                               email :email
+                            },
+                            success: function(ans){
+                         
+                              $(".warn").html("");
+                              if(ans.message == "success"){
+                                $(".warn").append("<li class='list-group-item text-center text-success'><a href='reset-password.php?token="+ans.token+"'>Reset Password</a></li>");
+                              }else{
+                                    $(".warn").append("<li class='list-group-item text-center text-danger'>"+ans.message+"</li>");
+                              }
+                            },
+                            error:function(ans){
+                                $(".warn").append("<li class='list-group-item text-center text-danger'>Something went wrong</li>");
+                            }
+                        });
+          });
+       });
+    </script>
   </body>
   </html>

@@ -133,8 +133,10 @@
               $token = ((isset($_COOKIE['SNID']))?$_COOKIE['SNID']:$_POST['token']);
           $userid = $db->query("SELECT user_id FROM login_tokens WHERE token = :token",array(':token'=>sha1($token)))[0]['user_id'];
             echo Password::change($_POST['oldpass'],$_POST['newpass'],$userid);
-          }
-       }else{
+        }
+       }elseif($_GET['url'] == 'resetpassword'){
+           echo Password::reset($_POST['email']);
+        }else{
           http_response_code(405);
        }
 

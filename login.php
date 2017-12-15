@@ -1,33 +1,54 @@
-<?php
-  include "classes/DB.php";
-  if(isset($_POST['log'])){
-  	 $password = $_POST['password'];
-  	 $username = $_POST['username'];
+<!DOCTYPE html>
+<html>
 
-  	 if(DB::query('SELECT user_name FROM users WHERE user_name = :username',array(':username' => $username))){
-  	 	if(password_verify($password,DB::query('SELECT password FROM users WHERE user_name = :username',array(':username' => $username))[0]['password'])){
-             
-             $cstring = True;
-             $token = bin2hex((openssl_random_pseudo_bytes(64,$cstring)));
-             $user_id = DB::query("SELECT id FROM users WHERE user_name = :username",array(':username' => $username))[0]['id'];
-             
-             DB::query("INSERT INTO login_tokens (token,user_id) VALUES (:token,:user_id)",array(':token'=> sha1($token),':user_id' => $user_id));	
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/Google-Style-Login.css">
+</head>
 
-             setcookie("SNID",$token,time() + 60 * 60 * 24 * 7,"/",null,null,false);
-             setcookie("SNID_","1",time() + 60 * 60 * 24 * 3,"/",null,null,true);
-             echo "Logged in";  
-  	 	} else{
-  	 		echo "Wrong Password";
-  	 	}
-  	 }else{
-  	 	echo "Hmm I don't know you !!";
-  	 }
-  }
-?>
+<body>
+      <ul class="warn text-center list-group" style="margin-top: 50px;"></ul>
+    <div class="login-card"><img src="assets/img/avatar_2x.png" class="profile-img-card">
+        <p class="profile-name-card"> </p>
+        <form class="form-signin"><span class="reauth-email"> </span>
+            <input class="form-control" type="email" required="" placeholder="Username" autofocus="" id="inputUsername">
+            <input class="form-control" type="password" required="" placeholder="Password" id="inputPassword">
+            
+            <button class="btn btn-primary btn-block btn-lg btn-signin" type="button">Sign in</button>
+        </form><a href="forgot-password.php" class="forgot-password">Forgot your password?</a></div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".btn-signin").click(function(event) {
+            var user = $("#inputUsername").val();
+            var pass = $("#inputPassword").val();
+                      $.ajax({
+            url: 'api/auth',
+            method: 'post',
+            data: {username: user,password : pass},
+            success: function(ans){ 
+              ans = JSON.parse(ans);  
+              var date = new Date();
+              var date2 = new Date();
+              date2.setTime(date.getTime()+(3*24*60*60*1000));
+              date.setTime(date.getTime()+(7*24*60*60*1000));
+              document.cookie="SNID="+ans.token+"; expires="+date.toGMTString()+"; path=/";
+              document.cookie="SNID_=1; expires="+date2.toGMTString()+"; path=/";
+              window.location.href = "index.php";
+            },
+            error:function() {
+                 $(".warn").append("<li class='list-group-item text-center text-danger'>Wrong Username Or Password !!</li>");
+            }
+          });
+        });
+     });
+       
+    </script>
+</body>
 
-<form method="post" action="login.php">
-	<h1>LOG IN</h1>
-	<input type="text" name="username" placeholder="username"><br><br>
-	<input type="password" name="password" placeholder="password"><br><br>
-	<button type="submit" name="log">Log In</button>
-</form>
+</html>
