@@ -1,0 +1,88 @@
+.row,.navbar,.navbar-default,.navbar-collapse,header,.navbar-header,.head-p2,.head-p1,.btn.dropdown-toggle{
+	background-color: #fff !important;
+}
+
+.head-p2 ,.navbar-collapse{
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.navbar-collapse{
+	margin-left: 10px !important;
+	padding-left: 10px !important;
+}
+
+.dropdown{
+	margin-top:10px; 
+}
+
+#full-page{
+	min-height: 500px;
+}
+
+footer.bottom{
+	background-color: #353535;
+	height: 200px;
+	position: relative; 
+}
+
+.post-img{
+	width: 100%;
+	height: auto;
+	opacity: 0;
+	transition: all 2s ease-out;
+}
+
+ul li{
+	list-style: undecorated;
+}
+
+.sm-image{
+	width: 3em;
+	float: left;
+}
+.sm-image + p{
+	font-size: 11pt;
+    font-style: bold;
+    font-weight: 600;
+    font-family:cursive;
+    margin-left: 9px;
+}
+
+.msg-mine{
+    background-color: #eb6738;
+    color: white;
+    float: right;
+}
+
+.msg-other{
+    background-color: lightgrey;
+    color: white;
+    float: left;
+}
+
+.msg-mine,.msg-other{
+    padding: 10px;
+    border-radius: 10px;
+    width: 40%;
+    margin-bottom: 3px;
+}
+
+.live-message{
+    padding:0;
+    margin-bottom: 100px;
+}
+
+.read-message{
+  margin: 0;
+  margin-bottom: 10px;
+  position: relative !important;
+  overflow-y: scroll;
+ overflow-x: hidden;     
+  height: 500px;    
+}
+
+.modal-body{
+  max-height: 300px !important;
+  overflow-y:scroll !important;
+}
