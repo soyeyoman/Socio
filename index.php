@@ -51,7 +51,8 @@
     <script type="text/javascript">
        var posts = true;
     </script>
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/index.js"></script>
+     <script type="text/javascript" src="assets/js/common.js"></script>
     
     
 </body>

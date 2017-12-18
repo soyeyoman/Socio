@@ -27,6 +27,8 @@
 
 
 <?php include 'includes/footer.php'; ?>
+ <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="assets/js/common.js"></script>
 <script type="text/javascript">
 
          $.ajax({
@@ -36,17 +38,17 @@
 
       var posts = JSON.parse(ans);
          $.each(posts,function(index) {
+           var date = new Date(posts[index].date);
           if(posts[index].img == ""){
             $(".timelineposts").append(
-                          '<blockquote><p>'+posts[index].body+'</p><footer>'+
-                    ' Posted by '+name+' at '+posts[index].date+
-                    ' <button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
+                          '<blockquote id="post'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+             
+                    '<footer> <button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');
           }else{
             $(".timelineposts").append(
-                          '<blockquote><p>'+posts[index].body+'</p><footer>'+
-                    '<img src="" class="post-img" temp-src="'+posts[index].img+'" id="img'+posts[index].postid+'"> Posted by '+name+' at '+posts[index].date+'<button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
+                          '<blockquote id="post'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+
+                    '<img src="" class="post-img" temp-src="'+posts[index].img+'" id="img'+posts[index].postid+'"><div class="clearfix"> <footer><button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');
           }

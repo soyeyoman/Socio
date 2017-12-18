@@ -117,6 +117,7 @@
        var user = "<?=$userid?>";
     </script>
     <script src="assets/js/profile.js"></script>
+     <script type="text/javascript" src="assets/js/common.js"></script>
     
     
 </body>

@@ -24,6 +24,7 @@
     <?php include 'includes/footer.php';?>
     <script src="assets/js/main.js">
     </script>
+     <script type="text/javascript" src="assets/js/common.js"></script>
     <script type="text/javascript">
        $(document).ready(function(){
            $.ajax({
@@ -33,10 +34,10 @@
                     ans = JSON.parse(ans);
 
                     $.each(ans,function(index) {
-                      if(ans[index].type == 1){
+                      if(ans[index].type == 2){
 
                        $(".noti-list").append('<li class="list-group-item">'+ans[index].user_name+' liked your post ..<span>'+ans[index].extra+'</span></li>');
-                      }else if(ans[index].type == 2){
+                      }else if(ans[index].type == 1){
                         $(".noti-list").append('<li class="list-group-item">'+ans[index].user_name+' mentioned you in a post ..<span>'+ans[index].extra+'</span></li>');
                       }
                     });

@@ -32,7 +32,7 @@ class Post{
             $db->query("UPDATE posts SET likes = likes+1 WHERE id = :postid ",array(':postid' => $postid));
             $db->query("INSERT INTO post_likes (post_id,liker_id) VALUES (:post_id,:liker_id)",array(':post_id' => $postid,':liker_id' => $likerid));
             $liked = "unlike";
-            //Notify::createNotify($likerid,"",$postid);
+            Notify::createNotify($likerid,"",$postid);
          }else{
              
              $db->query("UPDATE posts SET likes = likes-1 WHERE id = :postid",array(':postid' => $postid));

@@ -29,6 +29,7 @@
   <?php include 'includes/footer.php';?>
       <script src="assets/js/main.js">
       </script>
+       <script type="text/javascript" src="assets/js/search.js"></script>
       <script type="text/javascript">
         $(document).ready(function() {
            $("#onedevice").click(function(event) {

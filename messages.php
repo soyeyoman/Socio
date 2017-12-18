@@ -37,8 +37,7 @@
     </div>
 
     <?php include 'includes/footer.php';?>
-    <script src="assets/js/main.js">
-    </script>
+     <script type="text/javascript" src="assets/js/common.js"></script>
     <script type="text/javascript">
         var SENDER ;
         var USER = "";

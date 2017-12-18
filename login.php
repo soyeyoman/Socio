@@ -21,7 +21,7 @@
             <button class="btn btn-primary btn-block btn-lg btn-signin" type="button">Sign in</button>
         </form><a href="forgot-password.php" class="forgot-password">Forgot your password?</a></div>
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+   
     <script>
         $(document).ready(function(){
             $(".btn-signin").click(function(event) {

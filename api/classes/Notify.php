@@ -11,7 +11,7 @@
          
           $receiver = $db->query("SELECT user_id FROM posts WHERE id = :postid",array(':postid' => $postid))[0]['user_id'];
           if($receiver != 0){
-          	 $db->query("INSERT INTO notifications (type,receiver,sender) VALUES (:type,:receiver,:sender)",array(':type' => 2,':receiver' => $receiver,':sender' => $senderid));
+          	 $db->query("INSERT INTO notifications (type,receiver,sender,extra) VALUES (:type,:receiver,:sender,:extra)",array(':type' => 2,':receiver' => $receiver,':sender' => $senderid,':extra' => '{"postid":'.$postid.'}'));
           }
 	    }else{
 	      $text = explode(" ",$body);
@@ -19,9 +19,9 @@
 	         if(substr($word,0,1) == "@"){
 	            
 	            $receiverid = $db->query("SELECT id FROM users WHERE user_name = :username",array(':username' => substr($word,1)))[0]['id'];
-
+              $postid = $db->query("SELECT id FROM posts WHERE user_id = :user_id ORDER BY id DESC LIMIT 1",array(':user_id' => $senderid))[0]['id'];
 	            if($receiverid != 0){
-	               $db->query("INSERT INTO notifications (type,receiver,sender,extra) VALUES (:type,:receiver,:sender,:extra)",array(':type' => 1,':receiver' => $receiverid,':sender' => $senderid,':extra' => 'test'));
+	               $db->query("INSERT INTO notifications (type,receiver,sender,extra) VALUES (:type,:receiver,:sender,:extra)",array(':type' => 1,':receiver' => $receiverid,':sender' => $senderid,':extra' => '{"postid":'.$postid.'}'));
 	           }
 	         }
 	      }
