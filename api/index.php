@@ -157,6 +157,11 @@
          $userid = $db->query("SELECT user_id FROM login_tokens WHERE token = :token",array(':token'=>sha1($token)))[0]['user_id']; 
 
          echo Follow::Unfollow($userid,$_GET['profile']);
+      }elseif ($_GET['url'] == 'post') {
+         $token = ((isset($_COOKIE['SNID']))?$_COOKIE['SNID']:$_GET['token']);
+         $userid = $db->query("SELECT user_id FROM login_tokens WHERE token = :token",array(':token'=>sha1($token)))[0]['user_id']; 
+         
+         echo Post::delete($_GET['postid'],$userid);
       }
 
 

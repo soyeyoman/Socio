@@ -9,6 +9,11 @@
    if(!Login::isloggedin()){
    	 header("Location:login.php");
    }
+   
+   $sender="";
+   if(isset($_GET['user'])){
+     $sender = $_GET['user'];
+   }
 
    $title = "messages";
    include 'includes/header.php';
@@ -39,10 +44,15 @@
     <?php include 'includes/footer.php';?>
      <script type="text/javascript" src="assets/js/common.js"></script>
     <script type="text/javascript">
-        var SENDER ;
+        var SENDER = "<?=$sender?>";
         var USER = "";
        $(document).ready(function(){
           getUsername("");
+
+          if(SENDER != ""){
+            getMessages();
+          }
+
           $.ajax({
              url : 'api/messageusers',
              method: 'get',

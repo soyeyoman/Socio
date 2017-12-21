@@ -112,9 +112,9 @@ class Post{
 
  
  private static function checkliked($userid,$post_id){
-     	//check if is liked
+     	 global $db;
 	     $liked = 'like';
-	     if(DB::query("SELECT * FROM post_likes WHERE liker_id = :user AND post_id = :post",array(':user' => $userid,':post' =>  $post_id))){
+	     if($db->query("SELECT * FROM post_likes WHERE liker_id = :user AND post_id = :post",array(':user' => $userid,':post' =>  $post_id))){
 	           $liked = 'unlike';
 	      }
 	      return $liked;
@@ -122,9 +122,10 @@ class Post{
    
    //delete posts 
    public static function delete($postid,$userid){
-     if(DB::query("SELECT id FROM posts WHERE id = :post_id AND user_id = :userid",array(':post_id' => $postid,':userid' => $userid))){
-        DB::query("DELETE FROM post_likes WHERE post_id = :post_id",array(':post_id' => $postid));
-        DB::query("DELETE FROM posts WHERE id = :post_id",array(':post_id' => $postid));
+    global $db;
+     if($db->query("SELECT id FROM posts WHERE id = :post_id AND user_id = :userid",array(':post_id' => $postid,':userid' => $userid))){
+        $db->query("DELETE FROM post_likes WHERE post_id = :post_id",array(':post_id' => $postid));
+        $db->query("DELETE FROM posts WHERE id = :post_id",array(':post_id' => $postid));
 
         return "Post deleted";
      }else{

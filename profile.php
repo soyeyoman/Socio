@@ -35,8 +35,9 @@
 
     <div class="container" id="full-page">
         <h1 id="profile_head"><?=$username?>'s Profile</h1>
-        <div class="followpost">
-            
+        <div id="profilebtns">
+          <div class="followpost"></div>
+          <div class="messageprofile"></div>
         </div>
         <div class="row">
             <div class="col-md-3">

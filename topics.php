@@ -41,7 +41,7 @@
            var date = new Date(posts[index].date);
           if(posts[index].img == ""){
             $(".timelineposts").append(
-                          '<blockquote id="post'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+             
+                          '<blockquote id="post'+posts[index].postid+'"><a href="profile.php?profile='+posts[index].by+'" ><h3>'+posts[index].by+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+             
                     '<footer> <button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');

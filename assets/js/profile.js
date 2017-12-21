@@ -12,15 +12,15 @@ $(document).ready(function(){
           var date = new Date(posts[index].date);
 		     	if(posts[index].img == ""){
 		     		$(".timelineposts").append(
-                          '<blockquote id="post'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p><footer>'+
+                          '<blockquote posid="'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p><footer class="postfoot">'+
                   
                     ' <button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');
 		     	}else{
 		     		$(".timelineposts").append(
-                          '<blockquote id="post'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+
-                    '<img src="" class="post-img" temp-src="'+posts[index].img+'" id="img'+posts[index].postid+'"><div class="clearfix"></div><footer><button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
+                          '<blockquote posid="'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+
+                    '<img src="" class="post-img" temp-src="'+posts[index].img+'" id="img'+posts[index].postid+'"><div class="clearfix"></div><footer class="postfoot" ><button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');
 		     	}
@@ -68,7 +68,13 @@ $(document).ready(function(){
 		            this.style.opacity = '1';
              }});
          }
-
+      
+       if(user == profile){
+     $("blockquote").each(function(index, el) {
+       $(this).find('.postfoot').append('<button class="btn btn-link delpost" del-id="'+$(this).attr('posid')+'" style="color: #ebf424;">delete</button>');
+    });
+      setdelpostevent();
+       }
 		
 	  },
 	  error: function(ans) {
@@ -88,8 +94,8 @@ $(document).ready(function(){
          }else{
             $(".followpost").html('<button class="btn btn-primary follow">follow</button>');
          }
-
          followListenserAdd();
+         $(".messageprofile").html('<button class="btn btn-primary message" style="margin-top:2px;">send message</button>');
       },
       error:function(ans){
         console.log(ans);
@@ -98,6 +104,7 @@ $(document).ready(function(){
 
  }else{
     $(".followpost").append('<button class="btn btn-primary new-post">New Post</button>');
+
  }
     
   
@@ -126,17 +133,21 @@ $(document).ready(function(){
           $('#previewing').attr('src','images/post/noimage.png');
            var date = new Date(data[0].posted_at);
           if(data.post_img == "" || data.post_img == undefined){
-            $(".timelineposts").prepend('<blockquote id="post'+data[0].id+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+data[0].body+'</p><footer>'+
+            $(".timelineposts").prepend('<blockquote posid="'+data[0].id+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+data[0].body+'</p><footer class="postfoot" >'+
              ' <button class="btn btn-link" post-id="'+data[0].id+'" type="button" style="color: #eb3456"><span>❤0</span>&nbsp;like</button>'+
            '<button class="btn btn-link" post-ids="'+data[0].id+'" type="button" style="color: #ebf424">comments</button>'+ 
             '</footer></blockquote>');
           		  }else{
-          		     		$(".timelineposts").prepend('<blockquote id="post'+data[0].id+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+data[0].body+'</p>'+
-                              '<img  class="post-img post-img-new" temp-sr="'+data[0].post_img+'" id="img'+data[0].id+'"><div class="clearfix"></div> <footer><button class="btn btn-link" post-id="'+data[0].id+'" type="button" style="color: #eb3456"><span>❤0</span>&nbsp;like</button>'+
+          		     		$(".timelineposts").prepend('<blockquote posid="'+data[0].id+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+data[0].body+'</p>'+
+                              '<img  class="post-img post-img-new" temp-sr="'+data[0].post_img+'" id="img'+data[0].id+'"><div class="clearfix"></div> <footer class="postfoot" ><button class="btn btn-link" post-id="'+data[0].id+'" type="button" style="color: #eb3456"><span>❤0</span>&nbsp;like</button>'+
                               '<button class="btn btn-link" post-ids="'+data[0].id+'" type="button" style="color: #ebf424">comments</button>'+ 
                            '</footer></blockquote>');
           		     	}
-
+          
+           $("blockquote").each(function(index, el) {
+                $(this).find('.postfoot').append('<button class="btn btn-link delpost" del-id="'+$(this).attr('posid')+'" style="color: #ebf424;">delete</button>');
+          });
+          setdelpostevent();
           $("#postarea").val("");
           $("#file").val("");
 
@@ -145,7 +156,7 @@ $(document).ready(function(){
               this.onload = function(){
               this.style.opacity = '1';
           }});
-
+          
 
           }
           });
@@ -172,7 +183,10 @@ $(document).ready(function(){
     }
     });
 
-      
+    //message button clicked
+    $(".messageprofile").click(function(){
+       window.location.href="messages.php?user="+profile;
+    });
 });
 
 
@@ -217,4 +231,22 @@ $(".unfollow").click(function(event) {
 
 });
 
+}
+
+
+function setdelpostevent(){
+    $(".delpost").click(function(){
+      var id = $(this).attr('del-id');
+      $.ajax({
+        url: 'api/post?postid='+id,
+        method: 'delete',
+        success: function(ans){
+          $("[posid = '"+id+"']").remove();
+        },
+        error: function(error){
+          console.log(error);
+        }
+      });
+       
+    });
 }
