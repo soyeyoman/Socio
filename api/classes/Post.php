@@ -48,9 +48,9 @@ class Post{
 
 
 
-	public static function displayProfilePosts($profile_id,$userid){
+	public static function displayProfilePosts($profile_id,$userid,$offset){
     global $db;
-      $postsray = $db->query("SELECT * FROM posts WHERE user_id = :user_id  ORDER BY posted_at DESC",array(':user_id' => $profile_id));
+      $postsray = $db->query("SELECT * FROM posts WHERE user_id = :user_id ORDER BY posted_at DESC LIMIT 5 OFFSET ".$offset,array(':user_id' => $profile_id));
 
              $posts = '[';
           foreach($postsray as $post){
@@ -77,13 +77,13 @@ class Post{
   
 
 
- public static function displayTimelinePost($userid){
+ public static function displayTimelinePost($userid,$offset){
  	       global $db;
           //gets post of pple user follows  
          $postsbyfollowing = $db->query("SELECT posts.body,users.user_name AS name, posts.post_img ,posts.id AS id,posts.likes,posts.posted_at AS _date,posts.user_id AS poster FROM posts,followers,users WHERE 
            followers.user_id = posts.user_id
             AND users.id = posts.user_id
-           AND (followers.follower_id = :user_id OR posts.user_id = :user_id) ORDER BY posted_at DESC",array(':user_id' => $userid));
+           AND (followers.follower_id = :user_id OR posts.user_id = :user_id) ORDER BY posted_at DESC LIMIT 5 OFFSET ".$offset,array(':user_id' => $userid));
            
            $posts = '[';
           foreach ($postsbyfollowing as $post) {

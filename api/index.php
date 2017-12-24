@@ -81,7 +81,7 @@
             http_response_code(409);
             die("no such user");
           } 
-          echo Post::displayTimelinePost($userid);
+          echo Post::displayTimelinePost($userid,$_POST['start']);
 
        }else if($_GET['url'] == 'like'){
           $postid = $_POST['postid'];
@@ -100,7 +100,7 @@
             die("no such user");
           } 
           
-          echo Post::displayProfilePosts($profile_id,$userid);
+          echo Post::displayProfilePosts($profile_id,$userid,$_POST['start']);
 
        }elseif($_GET['url'] == 'send-message'){
           $receiverid = $_POST['to']; 

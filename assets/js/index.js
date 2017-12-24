@@ -1,15 +1,37 @@
+var start = 0;
+var postids =[];
+var postcount = 0;
+var working = false;
 
 $(document).ready(function() {
-	
-         $.ajax({
+	 getposts();
+	 getScroll();
+ });
+
+//infinite scroll
+ function getScroll(){
+   $(window).scroll(function(){
+      if($(this).scrollTop()+1 >= $('body').height() - $(window).height()){
+          if(working == false){
+             working = true;
+             getposts();
+          }  
+      }
+   });
+ }
+
+//get posts ajax
+function getposts(){
+	         $.ajax({
 		url: 'api/posts',
 		method: 'post',
-		data: {token:"test"},
+		data: {token:"test",start:start},
 		success: function(ans){	
 
 		  var posts = JSON.parse(ans);
 		     $.each(posts,function(index) {
-           var date = new Date(posts[index].date);
+             if(postids.indexOf(posts[index].postid) == -1){
+                   var date = new Date(posts[index].date);
 		     	if(posts[index].img == ""){
 		     		$(".timelineposts").append(
                           '<blockquote id="post'+posts[index].postid+'" ><a href="profile.php?profile='+posts[index].by+'" ><h3>'+posts[index].by+'</h3> </a><h6>at '+
@@ -25,8 +47,14 @@ $(document).ready(function() {
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');
 		     	}
+		     	postids[postcount++] = posts[index].postid;
+             }
+
 		     });
-             
+		     start+=5;
+             setTimeout(function(){
+                working = false;
+             },1000);
              //add like listener
 		     $('[post-id]').click(function(){
 		     	 var postid = $(this).attr('post-id');
@@ -77,7 +105,7 @@ $(document).ready(function() {
 		}
 
 	});
-    });
+}
 
 
         
