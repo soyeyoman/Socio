@@ -12,14 +12,14 @@ $(document).ready(function(){
           var date = new Date(posts[index].date);
 		     	if(posts[index].img == ""){
 		     		$(".timelineposts").append(
-                          '<blockquote posid="'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p><footer class="postfoot">'+
+                          '<blockquote posid="'+posts[index].postid+'" id="'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p><footer class="postfoot">'+
                   
                     ' <button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');
 		     	}else{
 		     		$(".timelineposts").append(
-                          '<blockquote posid="'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+
+                          '<blockquote posid="'+posts[index].postid+'" id="'+posts[index].postid+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+posts[index].body+'</p>'+
                     '<img src="" class="post-img" temp-src="'+posts[index].img+'" id="img'+posts[index].postid+'"><div class="clearfix"></div><footer class="postfoot" ><button class="btn btn-link" post-id="'+posts[index].postid+'" type="button" style="color: #eb3456"><span>❤'+posts[index].likes+'</span>&nbsp;'+posts[index].liked+'</button>'+
                     '<button class="btn btn-link" post-ids="'+posts[index].postid+'" type="button" style="color: #ebf424">comments</button>'+ 
                  '</footer></blockquote>');
@@ -70,12 +70,16 @@ $(document).ready(function(){
          }
       
        if(user == profile){
-     $("blockquote").each(function(index, el) {
-       $(this).find('.postfoot').append('<button class="btn btn-link delpost" del-id="'+$(this).attr('posid')+'" style="color: #ebf424;">delete</button>');
-    });
+        $("blockquote").each(function(index, el) {
+        $(this).find('.postfoot').append('<button class="btn btn-link delpost" del-id="'+$(this).attr('posid')+'" style="color: #ebf424;">delete</button>');
+      });
       setdelpostevent();
        }
-		
+
+        if(location.hash != "" && location.hash != undefined){
+          scrollToAnchor(location.hash);
+        }
+		    
 	  },
 	  error: function(ans) {
 			alert(ans);
@@ -250,3 +254,8 @@ function setdelpostevent(){
        
     });
 }
+
+  function scrollToAnchor(aid){
+         var aTag = $(aid);
+         $('html,body').animate({scrollTop : aTag.offset().top},'slow');
+       }

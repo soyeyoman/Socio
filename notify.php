@@ -22,8 +22,6 @@
         </div>
     </div>
     <?php include 'includes/footer.php';?>
-    <script src="assets/js/main.js">
-    </script>
      <script type="text/javascript" src="assets/js/common.js"></script>
     <script type="text/javascript">
        $(document).ready(function(){
@@ -32,16 +30,17 @@
                method: 'get',
                success: function(ans){
                     ans = JSON.parse(ans);
-
+                    
                     $.each(ans,function(index) {
+                      var extra = JSON.parse(ans[index].extra);
                       if(ans[index].type == 2){
 
-                       $(".noti-list").append('<li class="list-group-item">'+ans[index].user_name+' liked your post ..<span>'+ans[index].extra+'</span></li>');
+                       $(".noti-list").append('<li class="list-group-item" postid="'+extra.postid+'" >'+ans[index].user_name+' liked your post </li>');
                       }else if(ans[index].type == 1){
-                        $(".noti-list").append('<li class="list-group-item">'+ans[index].user_name+' mentioned you in a post ..<span>'+ans[index].extra+'</span></li>');
+                        $(".noti-list").append('<li class="list-group-item" postid="'+extra.postid+'">'+ans[index].user_name+' mentioned you in a post ..</li>');
                       }
                     });
-
+                    notiaction();
                },
                error: function(ans){
                 console.log(ans);
@@ -49,4 +48,12 @@
 
             });
        });
+
+       function notiaction(){
+            $('[postid]').click(function(){
+                location.href = 'profile.php?#'+$(this).attr('postid');
+            });
+       }
+
+    
     </script>
