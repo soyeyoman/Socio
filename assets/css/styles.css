@@ -86,3 +86,20 @@ ul li{
   max-height: 300px !important;
   overflow-y:scroll !important;
 }
+
+
+.profile-img{
+  z-index:2;
+  position:absolute;
+  max-width:15%;
+  bottom: -40px;
+  right: 20px;
+  height:auto;
+}
+
+.picthumb{
+  background-size: 100% 400px;
+  height: 400px;
+  position: relative;
+  background-repeat: no-repeat;
+}

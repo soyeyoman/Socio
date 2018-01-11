@@ -104,4 +104,10 @@ class User{
         $username = $db->query("SELECT user_name FROM users WHERE id = :user_id",array(':user_id' => $userid))[0]['user_name'];
         return '{"name":"'.$username.'"}';
       }
+
+      public function getProfileDetails($userid){
+         global $db;
+         $userdetails = $db->query("SELECT user_name,profile_img,about,jumbpic FROM users WHERE id = :userid",array(':userid' => $userid))[0];
+         return json_encode($userdetails);
+      }
 }

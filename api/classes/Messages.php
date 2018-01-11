@@ -25,29 +25,31 @@
                  LEFT JOIN users s ON messages.sender = s.id
                  LEFT JOIN users r ON messages.receiver = r.id
                  WHERE s.id = :userid OR r.id = :userid",array(':userid' => $userid));
+           
+                $user = User::getusername($userid);
+                $user = json_decode($user);
+                $user = $user->name;
+                
+                $ans = array();
+            
+                foreach ($messages as $message) {
+                   if(!in_array(array('username' => $message['sender'],'id' => $message['sid'],'img' => $message['profile_img']),$ans)){ 
+                          $ans[] = array('username' => $message['sender'],'id' => $message['sid'],'img' => $message['profile_img']);   
+                   }
 
-          $user = User::getusername($userid);
-          $user = json_decode($user);
-          $user = $user->name;
-          
-          $ans = array();
-      
-          foreach ($messages as $message) {
-             if(!in_array(array('username' => $message['sender'],'id' => $message['sid'],'img' => $message['profile_img']),$ans)){ 
-                    $ans[] = array('username' => $message['sender'],'id' => $message['sid'],'img' => $message['profile_img']);   
-             }elseif(!in_array(array('username' => $message['receiver'],'id' => $message['rid'],'img' => $message['profile_img']),$ans)){
-         
-                 $ans[] = array('username' => $message['receiver'],'id' => $message['rid'],'img' => $message['profile_img']);
-         
-             }
+                   if(!in_array(array('username' => $message['receiver'],'id' => $message['rid'],'img' => $message['profile_img']),$ans)){
+               
+                       $ans[] = array('username' => $message['receiver'],'id' => $message['rid'],'img' => $message['profile_img']);
+               
+                   }
 
-          }
-          $final = array();
-          foreach ($ans as $an){
-            if($an['username'] != $user){
-              $final[] = array('username' => $an['username'],'id' => $an['id'],'img' => $message['profile_img']);
-            }
-          }
+                }
+                $final = array();
+                foreach ($ans as $an){
+                  if($an['username'] != $user){
+                    $final[] = array('username' => $an['username'],'id' => $an['id'],'img' => $an['img']);
+                  }
+                }
           return json_encode($final);
           }
     }

@@ -14,8 +14,7 @@
    include 'includes/header.php';
 ?> 
 <div id="full-page">
-  
-
+    
 </div>
   
 <?php include 'includes/footer.php'; ?>

@@ -52,6 +52,9 @@
        $token = ((isset($_COOKIE['SNID']))?$_COOKIE['SNID']:$_GET['token']);
          $userid = $db->query("SELECT user_id FROM login_tokens WHERE token = :token",array(':token'=>sha1($token)))[0]['user_id'];
        echo Follow::Following($userid,$_GET['profile']);
+    }elseif($_GET['url'] == 'profiledetails'){
+       $userid = $_GET['user'];
+       echo User::getProfileDetails($userid);
     }else{
        http_response_code(405);
     }

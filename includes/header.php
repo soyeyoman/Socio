@@ -11,7 +11,7 @@
 
 <body>
     <header>
-       <nav class="navbar navbar-default">
+       <nav class="navbar navbar-default" style="margin-bottom: 0 !important;">
            <div class="row" style="margin: 0 auto !important;">
              <div class="head-p1 col-md-6" style="z-index: 20;">
                      <div class="navbar-header" style="width: 100% !important;">

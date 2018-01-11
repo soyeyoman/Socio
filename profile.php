@@ -32,18 +32,30 @@
    $title = $username.'\'s profile';
    include 'includes/header.php';
 ?>
-
+    <div class=".jumbotron picthumb">
+       
+ 
+    <img src="images/profile/testman.jpg" class="img-circle profile-img" >
+   
+  
+    </div>
     <div class="container" id="full-page">
         <h1 id="profile_head"><?=$username?>'s Profile</h1>
+      
         <div id="profilebtns">
           <div class="followpost"></div>
           <div class="messageprofile"></div>
         </div>
         <div class="row">
             <div class="col-md-3">
+                <div id="about-me">
                 <h3>About Me</h3>
                 <p>Welcome to my profile blah blh blah blah blah blah
                 blah blah blah blah blah blah blah blah blah</p>
+                </div>
+                <div id="followdetails">
+                  
+                </div>
             </div>
           <div class="timelineposts col-md-9"> 
           

@@ -35,6 +35,20 @@ $(document).ready(function(){
 
  }
     
+  //get profile details
+  $.ajax({
+      url:'api/profiledetails&user='+profile,
+      method:'get',
+      success: function(ans){
+         ans = JSON.parse(ans);
+         $(".picthumb").css({"background" :"url("+ans.jumbpic+") no-repeat","background-size" : "100% 700px"});   
+         $(".profile-img").attr('src',ans.profile_img);
+         $("#about-me p").html(ans.about);
+      },
+      error:function(error){
+         console.log(error);
+      }
+  });  
   
   //new post ,odal
   $(".new-post").click(function(){
