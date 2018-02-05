@@ -38,6 +38,8 @@
                  method: 'delete',
                  success: function(ans){
                      window.location = 'login.php';
+                     delete_cookie("SNID");
+                     delete_cookie("SNID_");
                  },
                  error: function(ans){
                   console.log(ans);
@@ -52,6 +54,8 @@
                  method: 'delete',
                  success: function(ans){
                      window.location = 'login.php';
+                      delete_cookie("SNID");
+                     delete_cookie("SNID_");
                  },
                  error: function(ans){
                   console.log(ans);
@@ -59,6 +63,10 @@
               });
            });
         });
+
+        var delete_cookie = function(name) {
+           document.cookie = name + '=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        };
       </script>
   </body>
   </html>

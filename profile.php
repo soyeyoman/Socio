@@ -14,7 +14,7 @@
          if(DB::query("SELECT id FROM users WHERE user_name = :username",array(':username' => $_GET['profile']))){
             
            //get profile id and username from get value  
-           $profile_id = DB::query("SELECT id FROM users WHERE user_name = :username",array(':username' => $_GET['profile']))[0]['id'];
+            $profile_id = DB::query("SELECT id FROM users WHERE user_name = :username",array(':username' => $_GET['profile']))[0]['id'];
             $username = DB::query('SELECT user_name FROM users WHERE id = :userid',array(':userid' =>$profile_id))[0]['user_name'];
 
 

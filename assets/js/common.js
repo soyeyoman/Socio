@@ -1,3 +1,5 @@
+   var USER = "";
+   var ID = "";
   $(document).ready(function($) {
 
      //seacr for users in all pages 
@@ -106,6 +108,27 @@ function addComment(ans){
           error:function(ans){
             console.log(ans);
           }  
-          });
-  
+          }); 
  }
+
+   function getUserId(username){
+     if(username == ""){
+        var url = 'api/userid';
+     }else{
+         var url = 'api/userid?username='+username;
+     }
+
+     $.ajax({
+       url: url,
+       method: 'get',
+       success : function(ans){
+          ans = JSON.parse(ans);
+          ID = ans.id;
+       },
+       error: function(error) {
+        console.log(error);
+       }
+     });
+     
+     
+   }

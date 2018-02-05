@@ -37,13 +37,18 @@ $(document).ready(function(){
     
   //get profile details
   $.ajax({
-      url:'api/profiledetails&user='+profile,
+      url:'api/profiledetails?profile='+profile,
       method:'get',
       success: function(ans){
          ans = JSON.parse(ans);
          $(".picthumb").css({"background" :"url("+ans.jumbpic+") no-repeat","background-size" : "100% 700px"});   
          $(".profile-img").attr('src',ans.profile_img);
          $("#about-me p").html(ans.about);
+         $("#followdetails").append('<ul class="list-group">'+
+            '<li class="list-group-item"><a>Followers :</a> '+ans.followers+' People</li>'+
+            '<li class="list-group-item"><a>Following :</a> '+ans.following+' people</li>'+
+            '<li class="list-group-item">Posts :'+ans.posts+'</li>'
+          +'</ul>');
       },
       error:function(error){
          console.log(error);
@@ -69,21 +74,24 @@ $(document).ready(function(){
           processData:false,        // To send DOMDocument or non processed data file it is set to false
           success: function(data)   // A function to be called if request succeeds
           {
+        
           data = JSON.parse(data);	
           $('#loading').hide();
           $("#postModal").modal('hide');
           $('#previewing').attr('src','images/post/noimage.png');
            var date = new Date(data[0].posted_at);
-          if(data.post_img == "" || data.post_img == undefined){
+          if(data[0].post_img  == undefined || data[0].post_img == null){
             $(".timelineposts").prepend('<blockquote posid="'+data[0].id+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+data[0].body+'</p><footer class="postfoot" >'+
              ' <button class="btn btn-link" post-id="'+data[0].id+'" type="button" style="color: #eb3456"><span>❤0</span>&nbsp;like</button>'+
            '<button class="btn btn-link" post-ids="'+data[0].id+'" type="button" style="color: #ebf424">comments</button>'+ 
             '</footer></blockquote>');
+               
           		  }else{
           		     		$(".timelineposts").prepend('<blockquote posid="'+data[0].id+'"><a href="profile.php?profile='+name+'" ><h3>'+name+'</h3> </a><h6>at '+date.toGMTString()+'</h6><p>'+data[0].body+'</p>'+
                               '<img  class="post-img post-img-new" temp-sr="'+data[0].post_img+'" id="img'+data[0].id+'"><div class="clearfix"></div> <footer class="postfoot" ><button class="btn btn-link" post-id="'+data[0].id+'" type="button" style="color: #eb3456"><span>❤0</span>&nbsp;like</button>'+
                               '<button class="btn btn-link" post-ids="'+data[0].id+'" type="button" style="color: #ebf424">comments</button>'+ 
                            '</footer></blockquote>');
+                      
           		     	}
           
            $("blockquote").each(function(index, el) {

@@ -105,9 +105,67 @@ class User{
         return '{"name":"'.$username.'"}';
       }
 
-      public function getProfileDetails($userid){
+      public static function changeAccountDetails($userid){
+        global $db;
+
+        $sql = "UPDATE users SET";
+        $data =  array();
+        if(chop($_POST["username"]) != ""){
+           $username = explode(' ',$_POST["username"])[0];
+           $sql .= " user_name = :username";
+           $data[':username'] =  $username;
+        }
+
+        if(chop($_POST['about']) != ""){
+           $sql .= " ,about = :about";
+           $data[':about'] = $_POST['about'];
+        }
+
+        if(isset($_FILES["profilepic"]) && $_FILES['profilepic']['size'] > 0){
+            $imageFileType = pathinfo(basename($_FILES["profilepic"]["name"]),PATHINFO_EXTENSION);
+            if(file_exists("../images/profile/profile".$userid.".".$imageFileType)){
+              unlink("../images/profile/profile".$userid.".".$imageFileType);
+            }
+            
+            $path = '../images/profile/profile'.$userid.".".$imageFileType;
+            move_uploaded_file($_FILES["profilepic"]["tmp_name"], $path);
+            $sql .= ',profile_img = :profilepic';
+            $data[':profilepic'] = 'images/profile/profile'.$userid.".".$imageFileType;
+        }
+
+        if(isset($_FILES['jumbpic'])  && $_FILES["jumbpic"]['size'] > 0){
+            $imageFileType = pathinfo(basename($_FILES["jumbpic"]["name"]),PATHINFO_EXTENSION);
+            if(file_exists("../images/profile/jumb".$userid.".".$imageFileType)){
+               unlink("../images/profile/jumb".$userid.".".$imageFileType);
+            }
+            $path = '../images/profile/jumb'.$userid.".".$imageFileType;
+            move_uploaded_file($_FILES["jumbpic"]["tmp_name"], $path);
+             $sql .= ",jumbpic = :jumbpic ";
+            $data[':jumbpic'] = "images/profile/jumb".$userid.".".$imageFileType;
+        }
+       
+        $sql .= " WHERE id = :userid";
+        $data[':userid'] = $userid;
+        
+        $db->query($sql,$data);
+        return self::getProfileDetails($userid);
+      }
+
+      public static function getProfileDetails($userid){
          global $db;
          $userdetails = $db->query("SELECT user_name,profile_img,about,jumbpic FROM users WHERE id = :userid",array(':userid' => $userid))[0];
-         return json_encode($userdetails);
+         $numberposts = $db->query("SELECT COUNT(id) AS posts FROM posts WHERE user_id = :userid",array(':userid' => $userid))[0];
+         $following = $db->query("SELECT COUNT(id) AS following  FROM followers WHERE follower_id = :userid",array(':userid' => $userid))[0];
+         $followers = $db->query("SELECT COUNT(id) AS followers  FROM followers WHERE user_id = :userid",array(':userid' => $userid))[0];
+
+         $final = array_merge($userdetails,$numberposts,$following,$followers);
+         return json_encode($final);
+      }
+
+      public static function getId($username){
+        global $db;
+
+        $userid = $db->query("SELECT id FROM users WHERE user_name = :username",array(':username' => $username))[0];
+        return json_encode($userid);
       }
 }

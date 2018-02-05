@@ -50,7 +50,11 @@
      <script type="text/javascript" src="assets/js/common.js"></script>
     <script type="text/javascript">
         var SENDER = "<?=$sender?>";
+        var ID = "";
         var USER = "";
+        getUsername(""); 
+        getUserId("");
+      
        $(document).ready(function(){
          
           $.ajax({
@@ -88,34 +92,14 @@
                         });
                         
                        }
-                       getUsername("");
+                       
                 },
               error: function(ans) {
                    console.log(ans);
                  }  
-          });
+          });//end of ajax
 
-         
-
-          
-          $(".btn-send-message").click(function(event) {
-             var body = $(".send-message input[type=text]").val();
-             if(body.trim()  != ""){
-               $.ajax({
-                  url : 'api/send-message',
-                  method: 'post',
-                  data: {body:body,to:SENDER},
-                  success: function(ans){
-                      ans = JSON.parse(ans);
-                      $(".read-message").append('<div class="msg-mine" id="msg'+ans.id+'"">'+body+'</div><div class="clearfix"></div>');
-                      $(".send-message input[type=text]").val("");
-                  }
-               }); 
-               
-             }
-          });
-         
-      
+        
          $("#newmessageuser").keyup(function(event) {
             $(".user-box").html("");
             var key = $("#newmessageuser").val();
@@ -156,20 +140,22 @@
             });
 
             }
-        });
+        });//newmessageuser event
 
          $("#addnewmessage").click(function(){
             $("#newmessageuser").slideDown();
          });
 
-      });
+        
+         setWebsocket();
+
+      }); //end of document event 
         
         function getMessages(){
            $.ajax({
           url: 'api/messages0?friend='+SENDER,
           method: 'get',
           success: function(ans){ 
-            getUsername("");
             ans = JSON.parse(ans);
             $.each(ans,function(index) {
               if(ans[index].sender == USER){
@@ -185,7 +171,8 @@
           
           }
           });
-        }
+
+         }
         
         function userClick(obj){
           $(".list-message-users li").each(function(index, el) {
@@ -207,7 +194,7 @@
         }
      
     </script>
-    
+    <script type="text/javascript" src="assets/js/chat.js"></script>
     
 </body>
 

@@ -24,6 +24,14 @@
          
           echo User::getusername($userid);  
 
+     }elseif($_GET['url'] == 'userid'){
+       if(isset($_GET['username'])){
+           $username = $_GET['username'];
+        }else{
+           $token = ((isset($_COOKIE['SNID']))?$_COOKIE['SNID']:$_GET['token']);
+           $username = $db->query("SELECT users.user_name FROM login_tokens,users WHERE token = :token AND login_tokens.user_id = users.id",array(':token'=>sha1($token)))[0]['user_name'];
+        }
+      echo User::getId($username);
      }elseif ($_GET['url'] == 'search') {
            
            echo User::search($_GET['query']);
@@ -53,9 +61,13 @@
          $userid = $db->query("SELECT user_id FROM login_tokens WHERE token = :token",array(':token'=>sha1($token)))[0]['user_id'];
        echo Follow::Following($userid,$_GET['profile']);
     }elseif($_GET['url'] == 'profiledetails'){
-       $userid = $_GET['user'];
+       $token = ((isset($_COOKIE['SNID']))?$_COOKIE['SNID']:$_GET['token']);
+       $userid = $db->query("SELECT user_id FROM login_tokens WHERE token = :token",array(':token'=>sha1($token)))[0]['user_id'];
+       if(isset($_GET['profile'])){
+         $userid = $_GET['profile'];
+       }
        echo User::getProfileDetails($userid);
-    }else{
+     }else{
        http_response_code(405);
     }
 
@@ -139,6 +151,11 @@
         }
        }elseif($_GET['url'] == 'resetpassword'){
            echo Password::reset($_POST['email']);
+
+        }elseif ($_GET['url'] == 'changeaccountdata'){
+           $token = ((isset($_COOKIE['SNID']))?$_COOKIE['SNID']:$_POST['token']);
+           $userid = $db->query("SELECT user_id FROM login_tokens WHERE token = :token",array(':token'=>sha1($token)))[0]['user_id'];
+           echo User::ChangeAccountDetails($userid);
         }else{
           http_response_code(405);
        }

@@ -17,7 +17,8 @@ class Post{
      global $db;
      self::createPost($body,$userid); 
      $id = $db->query("SELECT id FROM posts WHERE user_id = :userid  ORDER BY id DESC LIMIT 1",array(':userid' => $userid))[0]['id'];
-     
+     $imageFileType = pathinfo(basename($_FILES["file"]["name"]),PATHINFO_EXTENSION);
+     $basename = md5(microtime()).".".$imageFileType;
      $path = '../images/post/'.basename($_FILES["file"]["name"]);
      move_uploaded_file($_FILES["file"]["tmp_name"], $path);
      $db->query("UPDATE posts SET post_img = :img WHERE id = :id",array(':id' => $id,':img'=>'images/post/'.basename($_FILES['file']['name'])));
