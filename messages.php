@@ -108,10 +108,13 @@
               method : "get",
               url : "api/search?query="+key,
               success : function(ans){
+
                ans = JSON.parse(ans);
                for(i = 0;i<ans.length;i++){
                  if(ans[i].user_name != USER){
-                    $(".user-box").append('<li class="list-group-item newmessageselect" user-id="'+ans[i].id+'" style="cursor:pointer;">'+ans[i].user_name+'</li>');
+             
+                   $(".user-box").append('<li class="list-group-item newmessageselect" user-id="'+ans[i].id+'" style="cursor:pointer;">'+ans[i].user_name+'</li>');
+                    
                  }
             
                } 
@@ -128,10 +131,22 @@
                            background : "white"
                            });
                      });
-                    $(".list-message-users").prepend(' <li onclick="userClick(this)" user-id="'+SENDER+'" class="list-group-item"><img src="images/profile/default.png" class="img-circle sm-image"><p>'+name+'</p></li>');
-                     $("[user-id = "+id+"]").css({
-                         background : "lightblue"
-                      });
+
+                          $.ajax({
+                        url: 'api/profiledetails?profile='+SENDER,
+                        method: 'get',
+                        success: function(data){
+                          ans = JSON.parse(data);
+                            $(".list-message-users").prepend(' <li onclick="userClick(this)" user-id="'+SENDER+'" class="list-group-item"><img src="'+ans.profile_img+'" class="img-circle sm-image"><p>'+name+'</p></li>');
+                            $("[user-id = "+id+"]").css({
+                             background : "lightblue"
+                          });
+                        },
+                        error: function(error){
+                              console.log(error);
+                        }
+                     });
+                  
                  });
               },
               error : function(error){

@@ -10,7 +10,13 @@ function setWebsocket(){
               type: 'id'
             };
             ws.onmessage = function(e){
-                     $(".read-message").append('<div class="msg-other" >'+e.data+'</div><div class="clearfix"></div>');
+                var result = $.parseJSON(e.data);
+                if(SENDER == result.from){
+                  $(".read-message").append('<div class="msg-other" >'+result.text+'</div><div class="clearfix"></div>');
+                }else{
+                   
+                }
+                     
             }
 
             ws.onopen = function(){
@@ -31,6 +37,7 @@ function setWebsocket(){
             text :  $(".send-message input[type=text]").val(),
             sender: ID,
             to : SENDER,
+            from: ID,
             type : 'message'
         }
         ws.send(JSON.stringify(message));

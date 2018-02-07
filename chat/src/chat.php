@@ -38,7 +38,8 @@
                      $toId = $msg->to;
                      foreach ($this->clients as $client) {
                        if($client->resourceId == $this->clientId[$msg->to]){
-                        $client->send($msg->text);
+                        $meso = '{"text":"'.$msg->text.'","from":"'.$msg->from.'"}';
+                        $client->send($meso);
                        }
                      }
                  }catch(Exception $e){
