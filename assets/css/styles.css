@@ -103,3 +103,12 @@ ul li{
   position: relative;
   background-repeat: no-repeat;
 }
+
+.new-message-tick{
+   position:absolute;
+   right: 3px; 
+   background-color: blue;
+   border-radius: 50%;
+   width: 4em;
+   top: 3px;
+}
