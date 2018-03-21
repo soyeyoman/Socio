@@ -1,7 +1,22 @@
 <?php
 class Post{
-	
-	public static function createPost($body,$userid){
+
+
+  public static function createPostImage($body,$userid){
+     global $db;
+      self::createPost($body,$userid); 
+     $id = $db->query("SELECT id FROM posts WHERE user_id = :userid  ORDER BY id DESC LIMIT 1",array(':userid' => $userid))[0]['id'];
+     $imageFileType = pathinfo(basename($_FILES["file"]["name"]),PATHINFO_EXTENSION);
+     $basename = md5(microtime()).".".$imageFileType;
+    $path = 'images/post/'.$basename;
+     move_uploaded_file($_FILES["file"]["tmp_name"], "cow.jpg");
+     $db->query("UPDATE posts SET post_img = :img WHERE id = :id",array(':id' => $id,':img'=>'images/post/'.$basename));
+     $post = $db->query("SELECT * FROM posts WHERE user_id =:userid ORDER BY id DESC LIMIT 1",array(':userid' => $userid));
+     return json_encode($post);
+      
+  }
+
+    public static function createPost($body,$userid){
         global $db;
         Notify::createNotify($userid,$body);
         $topics = self::getTopics($body); 
@@ -11,19 +26,6 @@ class Post{
         $post = $db->query("SELECT * FROM posts WHERE user_id =:userid ORDER BY id DESC LIMIT 1",array(':userid' => $userid));
 
         return json_encode($post);
-	}
-
-  public function createPostImage($body,$userid){
-     global $db;
-     self::createPost($body,$userid); 
-     $id = $db->query("SELECT id FROM posts WHERE user_id = :userid  ORDER BY id DESC LIMIT 1",array(':userid' => $userid))[0]['id'];
-     $imageFileType = pathinfo(basename($_FILES["file"]["name"]),PATHINFO_EXTENSION);
-     $basename = md5(microtime()).".".$imageFileType;
-     $path = '../images/post/'.basename($_FILES["file"]["name"]);
-     move_uploaded_file($_FILES["file"]["tmp_name"], $path);
-     $db->query("UPDATE posts SET post_img = :img WHERE id = :id",array(':id' => $id,':img'=>'images/post/'.basename($_FILES['file']['name'])));
-     $post = $db->query("SELECT * FROM posts WHERE user_id =:userid ORDER BY id DESC LIMIT 1",array(':userid' => $userid));
-     return json_encode($post);
   }
 
 	public static function like($likerid,$postid){
@@ -70,8 +72,8 @@ class Post{
           $posts .=  '"date":"'.$post['posted_at'].'"},';
             
          }   
-
-         $posts = substr($posts,0,strlen($posts)-1);
+         
+         if(strlen($posts) > 1)$posts = substr($posts,0,strlen($posts)-1);
          $posts .= ']';
          echo $posts;
    }
@@ -79,17 +81,17 @@ class Post{
 
 
  public static function displayTimelinePost($userid,$offset){
- 	       global $db;
+ 	      global $db;
           //gets post of pple user follows  
          $postsbyfollowing = $db->query("SELECT posts.body,users.user_name AS name, posts.post_img ,posts.id AS id,posts.likes,posts.posted_at AS _date,posts.user_id AS poster FROM posts,followers,users WHERE 
            followers.user_id = posts.user_id
             AND users.id = posts.user_id
            AND (followers.follower_id = :user_id OR posts.user_id = :user_id) ORDER BY posted_at DESC LIMIT 5 OFFSET ".$offset,array(':user_id' => $userid));
-           
+          
            $posts = '[';
           foreach ($postsbyfollowing as $post) {
 
-          //check if is liked
+         // check if is liked
          $liked = 'like';
          if($db->query("SELECT * FROM post_likes WHERE liker_id = :user AND post_id = :post",array(':user' => $userid,':post' =>  $post['id']))){
                $liked = 'unlike';
@@ -105,7 +107,7 @@ class Post{
             
          }   
 
-         $posts = substr($posts,0,strlen($posts)-1);
+         if(strlen($posts) > 1)$posts = substr($posts,0,strlen($posts)-1);
          $posts .= ']';
          echo $posts;
  }

@@ -67,6 +67,7 @@
          $userid = $_GET['profile'];
        }
        echo User::getProfileDetails($userid);
+     
      }else{
        http_response_code(405);
     }
@@ -97,7 +98,6 @@
             die("no such user");
           } 
           echo Post::displayTimelinePost($userid,$_POST['start']);
-
        }else if($_GET['url'] == 'like'){
           $postid = $_POST['postid'];
           $token = ((isset($_COOKIE['SNID']))?$_COOKIE['SNID']:$_POST['token']);

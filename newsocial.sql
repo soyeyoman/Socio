@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 15, 2017 at 12:10 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.8
+-- Host: localhost
+-- Generation Time: Mar 19, 2018 at 08:43 AM
+-- Server version: 5.6.30-1
+-- PHP Version: 7.0.20-2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -200,18 +200,20 @@ CREATE TABLE `users` (
   `user_name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `profile_img` varchar(255) DEFAULT 'images/profile/default.png'
+  `profile_img` varchar(255) DEFAULT 'images/profile/default.png',
+  `about` text NOT NULL,
+  `jumbpic` varchar(255) NOT NULL DEFAULT '/images/jumb/default_jb.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_name`, `password`, `email`, `profile_img`) VALUES
-(53, 'test2', '$2y$10$kAw9uVDAzAKlcLI0jAH1KO9rudLrNWtc1csJzhTsNySKN4ziUG1Fi', 'test2@gmail.com', 'images/profile/default.png'),
-(54, 'testman', '$2y$10$pHswtyRsJRSDkHg.no7CzevlO8NrePYtky/PMy2ID.rqBwpW9kvM2', 'test@gmail.com', 'images/profile/default.png'),
-(55, 'test1', '$2y$10$ObjPFVV9Jk48io.s2LWg8e/Itjad3SNoFHOpg5zk/xhBNND7Z/HpW', 'test1@gmail.com', 'images/profile/testman.jpg'),
-(56, 'testman2', '$2y$10$08CklRWdgjaGjpwF2/2QuOAj.bqD.elrSHa6oy8BtQnNPbHYnNyKq', 'testman2@gmail.com', 'images/profile/testman.jpg');
+INSERT INTO `users` (`id`, `user_name`, `password`, `email`, `profile_img`, `about`, `jumbpic`) VALUES
+(53, 'test2', '$2y$10$kAw9uVDAzAKlcLI0jAH1KO9rudLrNWtc1csJzhTsNySKN4ziUG1Fi', 'test2@gmail.com', 'images/profile/default.png', '', '/images/jumb/default_jb.jpg'),
+(54, 'testman', '$2y$10$pHswtyRsJRSDkHg.no7CzevlO8NrePYtky/PMy2ID.rqBwpW9kvM2', 'test@gmail.com', 'images/profile/default.png', '', '/images/jumb/default_jb.jpg'),
+(55, 'test1', '$2y$10$ObjPFVV9Jk48io.s2LWg8e/Itjad3SNoFHOpg5zk/xhBNND7Z/HpW', 'test1@gmail.com', 'images/profile/testman.jpg', '', '/images/jumb/default_jb.jpg'),
+(56, 'testman2', '$2y$10$08CklRWdgjaGjpwF2/2QuOAj.bqD.elrSHa6oy8BtQnNPbHYnNyKq', 'testman2@gmail.com', 'images/profile/testman.jpg', '', '/images/jumb/default_jb.jpg');
 
 --
 -- Indexes for dumped tables
@@ -293,46 +295,55 @@ ALTER TABLE `users`
 --
 ALTER TABLE `comments`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `followers`
 --
 ALTER TABLE `followers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `login_tokens`
 --
 ALTER TABLE `login_tokens`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `password_tokens`
 --
 ALTER TABLE `password_tokens`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
 --
 -- AUTO_INCREMENT for table `post_likes`
 --
 ALTER TABLE `post_likes`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
 --
 -- Constraints for dumped tables
 --

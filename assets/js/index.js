@@ -56,7 +56,7 @@ function getposts(){
                 working = false;
              },1000);
              //add like listener
-		     $('[post-id]').click(function(){
+		     $('[post-id]').unbind().bind('click',function(){
 		     	 var postid = $(this).attr('post-id');
 		     	 var btn = $(this);
 		     	 $.ajax({

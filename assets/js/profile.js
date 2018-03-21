@@ -273,7 +273,7 @@ function setdelpostevent(){
 
        });
        
-           $('[post-ids]').click(function(){
+           $('[post-ids]').unbind().bind('click',function(){
           var postid = $(this).attr('post-ids');
           var btn = $(this);
               $.ajax({

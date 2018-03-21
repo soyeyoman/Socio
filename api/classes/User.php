@@ -160,6 +160,7 @@ class User{
 
          $final = array_merge($userdetails,$numberposts,$following,$followers);
          return json_encode($final);
+         
       }
 
       public static function getId($username){
