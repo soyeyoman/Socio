@@ -20,6 +20,10 @@
 	min-height: 500px;
 }
 
+.dropdown-menu li{
+  list-style: none;
+}
+
 footer.bottom{
 	background-color: #353535;
 	height: 200px;

@@ -9,7 +9,7 @@ class Post{
      $imageFileType = pathinfo(basename($_FILES["file"]["name"]),PATHINFO_EXTENSION);
      $basename = md5(microtime()).".".$imageFileType;
     $path = 'images/post/'.$basename;
-     move_uploaded_file($_FILES["file"]["tmp_name"], "cow.jpg");
+     move_uploaded_file($_FILES["file"]["tmp_name"],"../images/post/".$basename);
      $db->query("UPDATE posts SET post_img = :img WHERE id = :id",array(':id' => $id,':img'=>'images/post/'.$basename));
      $post = $db->query("SELECT * FROM posts WHERE user_id =:userid ORDER BY id DESC LIMIT 1",array(':userid' => $userid));
      return json_encode($post);

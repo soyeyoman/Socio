@@ -15,7 +15,7 @@
      function onOpen(ConnectionInterface $conn)
      {
          $this->clients->attach($conn);
-         echo "New connectio ".$conn->resourceId;
+         echo "New connection ".$conn->resourceId;
      }
 
      function onClose(ConnectionInterface $conn)
@@ -56,7 +56,7 @@
                  break;
               case 'id':
                    $this->clientId[$msg->id] = $from->resourceId;
-                   print("client id = ".$msg->id);
+                   print(" client id = ".$msg->id);
                    break;
                        
          }
